@@ -22,11 +22,7 @@ MAX_COPY_THREAD = int(config.get("Distributing", "MAX_COPY_THREAD"))
 # Destination of HDDs
 FARMS = json.loads(config.get("Distributing", "FARMS"))
 
-plot_in_transfer = set([])
-plot_in_pending = set([])
-farm_in_transfer = set([])
-last_plot_time = 0
-spawn_plotter = True
+
 plot_in_deletion = set([])
 exist_plots = {}
 last_plot_cycle = COOLDOWN_CYCLE
@@ -85,6 +81,10 @@ def clean_farm(need_farms: int):
         logger.warning(f"Cannot clean up {need_farms} farms, all farms will full soon.")
 
 if __name__ == "__main__":
-    logger = logging.getLogger("Rotating Log")
+    logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter(' %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
     main()
